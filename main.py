@@ -369,28 +369,30 @@ def scene_cop(cv, x0, y0, x1, y1):
     cv.reset_clip()
 
 
-def scene_raid(cv, x0, y0, x1, y1):
-    """LEAD: night raid in the Sinaloa mountains - helicopter, road, hills."""
+def scene_bahrain(cv, x0, y0, x1, y1):
+    """LEAD: Bahrain industrial site in daylight - factory, chimneys,
+    smoke column and fire glow after the strike."""
     cv.set_clip(x0, y0, x1, y1)
-    cv.fill(x0, y0, x1, y1, (20, 26, 44))                           # night sky
-    cv.circle(x0 + (x1 - x0) * 5 // 6, y0 + 14, 10, (235, 235, 220))
-    # mountains
-    cv.poly([(x0, y1), (x0 + 60, y0 + 34), (x0 + 130, y1)], (52, 68, 92))
-    cv.poly([(x0 + 90, y1), (x0 + 180, y0 + 26), (x0 + 280, y1)], (38, 52, 74))
-    cv.poly([(x0 + 220, y1), (x0 + 300, y0 + 40), (x1, y1)], (52, 68, 92))
-    # road with dashes
-    cv.fill(x0, y1 - 16, x1, y1 - 8, (70, 70, 70))
-    for k in range(0, 12):
-        cv.fill(x0 + 8 + k * 28, y1 - 13, x0 + 22 + k * 28, y1 - 11, YELLOW)
-    # helicopter
-    hx, hy = x0 + 70, y0 + 22
-    cv.line(hx - 34, hy - 6, hx + 34, hy - 6, INK, 3)
-    cv.fill(hx - 22, hy, hx + 18, hy + 12, INK)
-    cv.fill(hx + 18, hy + 3, hx + 34, hy + 7, INK)
-    cv.line(hx - 8, hy + 12, hx + 2, hy + 12, INK, 2)
-    # searchlight cone
-    cv.poly([(hx - 4, hy + 12), (hx + 8, hy + 12),
-             (hx + 34, y1 - 16), (hx - 18, y1 - 16)], (250, 240, 160))
+    cv.fill(x0, y0, x1, y1, (198, 214, 226))                        # pale sky
+    cv.fill(x0, y1 - 18, x1, y1, (150, 140, 120))                  # ground
+    # factory block, left
+    cv.fill(x0 + 14, y0 + 30, x0 + 130, y1 - 18, (120, 120, 118))
+    cv.fill(x0 + 14, y0 + 30, x0 + 130, y0 + 36, (90, 90, 88))
+    for k in range(5):
+        cv.fill(x0 + 26 + k * 22, y0 + 44, x0 + 40 + k * 22,
+                y0 + 56, (60, 60, 58))
+    # chimney with a thin smoke column
+    cv.fill(x0 + 140, y0 + 12, x0 + 152, y1 - 18, (90, 90, 88))
+    for i in range(5):
+        cv.circle(x0 + 146 + i * 3, y0 + 10 - i * 3, 4 + i, (110, 110, 110))
+    # damaged hall, right: jagged broken roof, fire glow at its base
+    cv.poly([(x0 + 170, y1 - 18), (x0 + 170, y0 + 38),
+             (x0 + 196, y0 + 28), (x0 + 214, y0 + 40),
+             (x0 + 238, y0 + 30), (x0 + 262, y0 + 40),
+             (x0 + 286, y1 - 18)], (150, 60, 50))
+    cv.circle(x0 + 226, y1 - 24, 8, ORANGE)
+    cv.circle(x0 + 226, y1 - 26, 4, YELLOW)
+    cv.circle(x0 + 250, y1 - 22, 5, ORANGE)
     cv.reset_clip()
 
 
@@ -449,8 +451,8 @@ CONTINENTS = [
 ]
 # (number, x, y) absolute coords - each pin sits on land, checked visually.
 PINS = [
-    (1, 648, 658), (2, 566, 650), (3, 105, 684), (4, 962, 734),
-    (5, 542, 636), (6, 524, 620), (7, 556, 622), (8, 496, 620),
+    (1, 648, 658), (2, 566, 650), (3, 962, 734), (4, 672, 672),
+    (5, 505, 648), (6, 524, 620), (7, 556, 622), (8, 496, 620),
     (9, 812, 674), (10, 482, 634), (11, 726, 668), (12, 188, 718),
 ]
 
@@ -469,7 +471,8 @@ def draw_map(cv, y0, y1):
 
 
 # ---------------------------------------------------------------- content
-# 36 stories, first reported 21-22 Nov 2026 (weekend round-up).
+# 36 stories. Hero + 3 leads first reported 22 Nov 2026 UTC; mids and
+# briefs are the weekend round-up, honestly labelled by reporting date.
 # Hero + 3 leads carry drawn panels; mids and briefs are text.
 HERO_KICKER = "1 - GULF"
 HERO_HEAD = ["IRAN HITS US BASES IN",
@@ -486,25 +489,25 @@ LEADS = [
       "TALKS RUN PAST DEADLINE"],
      "Presidents say the new text is one 'all parties "
      "can agree upon'. Approval session due Sunday morning."),
-    ("3 - MEXICO - SINALOA",
-     ["'EL CHAPO ISIDRO' HELD AS",
-      "GUNFIRE ERUPTS"],
-     "FBI most-wanted cartel boss Fausto Isidro Meza "
-     "Flores seized in a joint US-Mexican raid. 11 killed "
-     "in the violence that followed."),
-    ("4 - SPORT - WELLINGTON",
+    ("3 - SPORT - WELLINGTON",
      ["INDIA SMASH RECORD TOTAL",
       "IN NEW ZEALAND"],
      "Pant's century lifts India to 521 for 4 on day "
      "four, the highest Test innings by India on New "
      "Zealand soil."),
+    ("4 - GULF - BAHRAIN",
+     ["BAHRAIN DEMANDS UN",
+      "ACTION OVER IRAN STRIKES"],
+     "Bahrain asks the UN to act and seeks damages "
+     "after Iran hit a civilian industrial site and "
+     "US bases on Saturday night."),
 ]
 
 MIDS = [
-    ("5 - UKRAINE",
-     ["RUSSIA HITS KYIV",
-      "BRIDGES AND LVIV",
-      "STATION; 2 DEAD"]),
+    ("5 - FRANCE",
+     ["FRENCH PROTEST",
+      "LIVING COSTS FOR",
+      "SIXTH WEEKEND"]),
     ("6 - POLAND",
      ["RUSSIAN MISSILES",
       "CRASH IN POLAND;",
@@ -514,9 +517,9 @@ MIDS = [
       "CARGO SHIP; FINLAND",
       "TIGHTENS SECURITY"]),
     ("8 - DENMARK",
-     ["DENMARK ARRESTS 2,",
-      "EXPELS DIPLOMAT",
-      "OVER KILL PLOT"]),
+     ["DENMARK SAYS RUSSIA",
+      "PLOTTED TO KILL",
+      "A RAPPER"]),
     ("9 - HONG KONG",
      ["HONG KONG VOTES FOR",
       "ELECTION COMMITTEE;",
@@ -537,16 +540,16 @@ MIDS = [
 
 # 24 numbered briefs; each line is at most 40 chars incl. its number.
 BRIEFS = [
-    "13 SENATE REJECTS WAR-POWERS BID, 48-51",
-    "14 US AIRLINES WARNED OF HOLIDAY PLOT",
+    "13 FBI PROBES BREACH OF CRIME DATABASE",
+    "14 US AIRLINES WARNED OF COPYCAT THREAT",
     "15 US OPEN TO LATIN AMERICAN UN CHIEF",
     "16 CENTCOM DENIES IRAN DOWNED AN F-16",
     "17 14 IRANIAN TANKERS STAGE OFF KHARG",
     "18 QATAR-MEDIATED US-IRAN TALKS GO ON",
     "19 ISRAEL STRIKES TOWNS IN SOUTH LEBANON",
     "20 3 KILLED IN GAZA AID-VEHICLE STRIKE",
-    "21 CRICKETER CHAHAL JOINS BJP, GETS ROLE",
-    "22 ICMR INKS 100 TECH TRANSFERS, 20 DEALS",
+    "21 'EL CHAPO ISIDRO' HELD IN SINALOA",
+    "22 ANTHROPIC IPO RAISES RECORD $81.3BN",
     "23 24 DEAD AS BOAT CAPSIZES IN NIGERIA",
     "24 SWEDEN SUMMONS RUSSIAN AMBASSADOR",
     "25 FRANCE SEEKS UN MEETING ON KYIV HITS",
@@ -556,9 +559,9 @@ BRIEFS = [
     "29 JAPAN TO TRAIN WITH LIVE FIRE IN INDIA",
     "30 PAKISTAN MINISTER TO ATTEND SCO MEET",
     "31 CYCLONE AKVAN HALTS 14 RANCHI FLIGHTS",
-    "32 BEPICOLOMBO SLIPS INTO MERCURY ORBIT",
+    "32 AUSTRALIA WIN T20 OPENER IN MELBOURNE",
     "33 ZELENSKYY: NATO IS THE BEST GUARANTEE",
-    "34 BRENT CRUDE AT $93.46 AS GULF BURNS",
+    "34 BRENT CRUDE AT $92.57 FRI",
     "35 BLAIR: REJOIN EU ONLY IF IT INNOVATES",
     "36 EISENKOT INVITES LIKUD TO COALITION",
 ]
@@ -571,6 +574,31 @@ NUMBERS = [
     ("521/4", "INDIA'S RECORD", "TEST TOTAL IN NZ"),
     ("24", "DEAD IN NIGERIA", "BOAT DISASTER"),
 ]
+
+
+# ---------------------------------------------------------------- grain
+def add_grain(cv, seed=20261122):
+    """Deterministic paper grain: sparse per-pixel brightness jitter from a
+    fixed-seed xorshift32, so two runs stay byte-identical. About one pixel
+    in eight is shifted by -8..+8 in all channels (hue preserved): subtle
+    on text, visible as newsprint texture on flat paper. (A plain LCG was
+    tried first and rejected: its low bits cycle with period 1024, so it
+    could only ever speckle 1,024 distinct pixels.)"""
+    state = seed & 0xffffffff
+    px = cv.px
+    for i in range(0, len(px), 3):
+        state ^= (state << 13) & 0xffffffff
+        state ^= state >> 17
+        state ^= (state << 5) & 0xffffffff
+        state &= 0xffffffff
+        if state & 7:
+            continue
+        d = ((state >> 3) % 17) - 8
+        if d == 0:
+            continue
+        for j in (i, i + 1, i + 2):
+            v = px[j] + d
+            px[j] = 0 if v < 0 else (255 if v > 255 else v)
 
 
 # ---------------------------------------------------------------- layout
@@ -600,7 +628,7 @@ def build():
     scene_strait(cv, 613, 87, 999, 249)
 
     # ---- three leads with drawn panels
-    scenes = (scene_cop, scene_raid, scene_cricket)
+    scenes = (scene_cop, scene_cricket, scene_bahrain)
     for i, (kicker, head, body) in enumerate(LEADS):
         x0 = 16 + i * 334
         x1 = x0 + 324
@@ -651,11 +679,14 @@ def build():
     # ---- footer
     cv.hline(16, 1008, 988, INK, 1)
     cv.text(16, 994, "Sources: Reuters, AP, BBC, AFP, The Guardian, "
-                     "ESPNcricinfo, UKMTO. All stories first reported "
-                     "21-22 Nov 2026.", 1, GREY)
+                     "ESPNcricinfo, UKMTO, as reported this weekend.",
+            1, GREY)
     cv.text(16, 1006, "Drawn by an AI agent for make.fun - one page, "
                       "36 stories, no photo, no hype.", 1, GREY)
     cv.text_r(1008, 1006, "PAGE 1 OF 1", 1, GREY)
+
+    # ---- deterministic paper grain, last so it textures everything
+    add_grain(cv)
     return cv
 
 
